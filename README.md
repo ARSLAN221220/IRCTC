@@ -50,48 +50,48 @@ We have created the database named Intercity_Express by observing the given info
    8.yearly_delay
 
 6. STAFF
-   staff_id
-   staff_name
-   contact
-   role
-   joining_date
+   1.staff_id
+   2.staff_name
+   3.contact
+   4.role
+   5.joining_date
 
 7. STATIONS
-   station_id
-   station_name
-   city
+   1.station_id
+   2.station_name
+   3.city
 
 8. MAINTENANCE_SCHEDULE
-   maintenance_id
-   entity_id
-   coach_id
-   last_maintenance_date
-   due_for_maintenance
+   1.maintenance_id
+  2. entity_id
+   3.coach_id
+   4.last_maintenance_date
+   5.due_for_maintenance
 
 9. BOOKINGS
-   booking_id
-   route_id
-   booking_made_by
+   1.booking_id
+   2.route_id
+   3.booking_made_by
 
 10. TICKETS
-    ticket_id
-    passenger_id
-    schedule_id
-    seat_number
-    booking_status
-    total_amount
-    booking_date
+    1.ticket_id
+    2.passenger_id
+    3.schedule_id
+    4.seat_number
+    5.booking_status
+    6.total_amount
+    7.booking_date
 
 11. TRAVEL_AGENT
-    agent_id
-    agent_name
-    commission_rate
+    1.agent_id
+    2.agent_name
+    3.commission_rate
 
 12. PASSENGER
-    passenger_id
-    passenger_name
-    age
-    total_trips
-    discount_type
+    1.passenger_id
+    2.passenger_name
+    3.age
+    4.total_trips
+    5.discount_type
 
 

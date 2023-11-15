@@ -7,7 +7,8 @@ Set A: Aditya Kotasthane (23112018)
 Set B: Avnee Jain (23112002)
 Set C: Arslan Shaikh (23112034)
 
-By observing the given information we've established that entities and their attributes will be as follows:
+We have created the database named Intercity_Express by observing the given information. We've assumed that coaches can move independent of train. This assumption is further supported by the fact that each coach has a driver which takes it to different routes. We've also assumed  that for each scheduled journey, a specific driver and co-driver are assigned. We've established that entities and their attributes will be as follows:
+
 
 1. TRAIN
    train_id

@@ -11,43 +11,43 @@ We have created the database named Intercity_Express by observing the given info
 
 
 1. TRAIN
-   train_id
-   train_name
-   type
-   mileage
-   driver_id
+   1.train_id
+   2.train_name
+   3.type
+  4. mileage
+  5. driver_id
 
 2. COACH
-   coach_id
-   train_id
-   capacity
-   mileage
-   last_maintenance_date
-   due_for_maintenance_date
-   driver_id
-   co_driver_id
+   1.coach_id
+   2.train_id
+   3.capacity
+   4.mileage
+   5.last_maintenance_date
+   6.due_for_maintenance_date
+   7.driver_id
+   8.co_driver_id
 
 3. DRIVERS
-   driver_id
-   driver_name
-   contact
-   rest_day
-   accommodation_required
+   1.driver_id
+   2.driver_name
+   3.contact
+   4.rest_day
+   5.accommodation_required
 
 4. ROUTES
-   route_id
-   source_station
-   deination_station
+   1.route_id
+   2.source_station
+   3.deination_station
 
 5. SCHEDULE
-   schedule_id
-   train_id
-   route_id
-   departure_time
-   arrival_time
-   driver_name
-   co_driver_name
-   yearly_delay
+   1.schedule_id
+   2.train_id
+   3.route_id
+   4.departure_time
+   5.arrival_time
+   6.driver_name
+   7.co_driver_name
+   8.yearly_delay
 
 6. STAFF
    staff_id

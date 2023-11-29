@@ -14,8 +14,8 @@ We have created the database named Intercity_Express by observing the given info
    1.train_id
    2.train_name
    3.type
-  4. mileage
-  5. driver_id
+   4. mileage
+   5. driver_id
 
 2. COACH
    1.coach_id
@@ -63,7 +63,7 @@ We have created the database named Intercity_Express by observing the given info
 
 8. MAINTENANCE_SCHEDULE
    1.maintenance_id
-  2. entity_id
+   2. entity_id
    3.coach_id
    4.last_maintenance_date
    5.due_for_maintenance

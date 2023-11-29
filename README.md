@@ -68,12 +68,7 @@ We have created the database named Intercity_Express by observing the given info
    4.last_maintenance_date
    5.due_for_maintenance
 
-9. BOOKINGS
-   1.booking_id
-   2.route_id
-   3.booking_made_by
-
-10. TICKETS
+9. TICKETS
     1.ticket_id
     2.passenger_id
     3.schedule_id
@@ -82,12 +77,12 @@ We have created the database named Intercity_Express by observing the given info
     6.total_amount
     7.booking_date
 
-11. TRAVEL_AGENT
+10. TRAVEL_AGENT
     1.agent_id
     2.agent_name
     3.commission_rate
 
-12. PASSENGER
+11. PASSENGER
     1.passenger_id
     2.passenger_name
     3.age

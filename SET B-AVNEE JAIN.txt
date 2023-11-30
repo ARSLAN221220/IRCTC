@@ -1,0 +1,97 @@
+SET B
+B.1.	Show schedule of all trips including main driver information for 10th October this year.
+QUERY ->		SELECT s.ScheduleID,t.TrainID,r.RouteID,r.SourceStation,r.DestinationStation,s.DepartureDate,s.ArrivalDate,
+			d.DriverID AS MainDriverID,
+			d.Name AS MainDriverName
+			FROM Schedule s
+			JOIN Train t ON s.TrainID = t.TrainID
+			JOIN Route r ON t.RouteID = r.RouteID
+			JOIN Driver d ON t.DriverID = d.DriverID
+			WHERE DATE(s.DepartureDate) = '2023-10-10';
+OUTPUT -> 
++------------+---------+---------+---------------+--------------------+---------------+-------------+--------------+-------------------+
+| ScheduleID | TrainID | RouteID | SourceStation | DestinationStation | DepartureDate | ArrivalDate | MainDriverID | MainDriverName    |
++------------+---------+---------+---------------+--------------------+---------------+-------------+--------------+-------------------+
+|          5 |       3 |       1 | Goa           | Mumbai             | 2023-10-10    | 2023-05-09  |          113 | Carter Alexander  |
+|          6 |       3 |       1 | Goa           | Mumbai             | 2023-10-10    | 2023-11-07  |          113 | Carter Alexander  |
+|         29 |      15 |       6 | Jaipur        | Ahmedabad          | 2023-10-10    | 2023-07-20  |          132 | Skylar Richardson |
+|         30 |      15 |       6 | Jaipur        | Ahmedabad          | 2023-10-10    | 2023-03-22  |          132 | Skylar Richardson |
+|        105 |      53 |      14 | Surat         | Vadodara           | 2023-10-10    | 2023-12-17  |           21 | Ethan Turner      |
+|        106 |      53 |      14 | Surat         | Vadodara           | 2023-10-10    | 2023-01-28  |           21 | Ethan Turner      |
+|          9 |       5 |      18 | Jodhpur       | Udaipur            | 2023-10-10    | 2023-07-12  |           68 | Mila Russell      |
+|         10 |       5 |      18 | Jodhpur       | Udaipur            | 2023-10-10    | 2023-05-12  |           68 | Mila Russell      |
+|         17 |       9 |      29 | Agra          | Mathura            | 2023-10-10    | 2023-05-11  |           98 | Aurora Perry      |
+|         18 |       9 |      29 | Agra          | Mathura            | 2023-10-10    | 2023-05-01  |           98 | Aurora Perry      |
+|         75 |      38 |      33 | Bareilly      | Moradabad          | 2023-10-10    | 2023-06-24  |           99 | Silas Simmons     |
+|         76 |      38 |      33 | Bareilly      | Moradabad          | 2023-10-10    | 2023-05-07  |           99 | Silas Simmons     |
+|         71 |      36 |      41 | Gandhinagar   | Bharuch            | 2023-10-10    | 2023-10-30  |           12 | Sophia Jackson    |
+|         72 |      36 |      41 | Gandhinagar   | Bharuch            | 2023-10-10    | 2023-08-01  |           12 | Sophia Jackson    |
+|         67 |      34 |      50 | Chandrapur    | Gondia             | 2023-10-10    | 2023-12-26  |           78 | Madison Reyes     |
+|         68 |      34 |      50 | Chandrapur    | Gondia             | 2023-10-10    | 2023-08-15  |           78 | Madison Reyes     |
++------------+---------+---------+---------------+--------------------+---------------+-------------+--------------+-------------------+
+
+B.2.	List all coaches with mileage between 4000 and 4999 km covered for September this year; include information on the coach, its last service date and total number of scheduled trips.
+QUERY ->		SELECT c.CoachID, c.Mileage, c.LastMaintenanceDate,
+			COUNT(s.ScheduleID) AS TotalScheduledTrips
+    			FROM Coach c
+     			JOIN MaintenanceSchedule ms ON c.CoachID = ms.CoachID
+     			JOIN Schedule s ON ms.maintenanceID = s.ScheduleID
+    			WHERE MONTH(c.LastMaintenanceDate) = 09 AND YEAR(c.LastMaintenanceDate) = 2023 AND c.Mileage BETWEEN 4000 AND 4999
+    			GROUP BY c.CoachID,c.Mileage, c.LastMaintenanceDate;
+
+OUTPUT ->
++---------+---------+---------------------+---------------------+
+| CoachID | Mileage | LastMaintenanceDate | TotalScheduledTrips |
++---------+---------+---------------------+---------------------+
+|       9 |    4700 | 2023-09-20          |                   1 |
++---------+---------+---------------------+---------------------+
+
+B.3.	List all agents, in descending order of percentage of confirmed booking each trip in the month of October this year. Include agent and route information in your result.
+QUERY ->  		SELECT ta.AgentID,ta.Name AS AgentName,r.RouteID,r.SourceStation,r.DestinationStation,COUNT(ti.TicketID) AS TotalBookings,
+			SUM(CASE WHEN ti.BookingStatus = 'Confirmed' THEN 1 ELSE 0 END) AS ConfirmedBookings,
+			(SUM(CASE WHEN ti.BookingStatus = 'Confirmed' THEN 1 ELSE 0 END) / COUNT(ti.TicketID)) * 100 AS PercentageConfirmed
+			FROM travelagent ta
+			JOIN Ticket ti ON ta.AgentID = ti.AgentID
+			JOIN Schedule s ON ti.ScheduleID = s.ScheduleID
+			JOIN Train t ON s.TrainID = t.TrainID
+			JOIN Route r ON t.RouteID = r.RouteID
+			WHERE MONTH(ti.BookingDate) = 10 AND YEAR(ti.BookingDate)
+			GROUP BY ta.AgentID, r.RouteID
+			ORDER BY PercentageConfirmed DESC;
+OUTPUT -> Empty set (0.00 sec)
+
+B.4.	Display the details of the routes where majority of bookings are not made by agents.
+QUERY -> 		SELECT r.RouteID,r.SourceStation,r.DestinationStation,COUNT(ti.TicketID) AS TotalBookings,COUNT(CASE WHEN ti.AgentID IS NULL THEN 1 END) AS BookingsWithoutAgent
+			FROM Route r
+			JOIN Train t ON r.RouteID = t.RouteID
+			JOIN Schedule s ON t.TrainID = s.TrainID
+			JOIN Ticket ti ON s.ScheduleID = ti.ScheduleID
+			GROUP BY r.RouteID
+			HAVING BookingsWithoutAgent > 0.5 * COUNT(ti.TicketID);
+OUTPUT -> 
++---------+---------------+--------------------+---------------+----------------------+
+| RouteID | SourceStation | DestinationStation | TotalBookings | BookingsWithoutAgent |
++---------+---------------+--------------------+---------------+----------------------+
+|       1 | Goa           | Mumbai             |             4 |                    3 |
+|      30 | Thane         | Navi Mumbai        |             2 |                    2 |
++---------+---------------+--------------------+---------------+----------------------+
+
+B.5.	Display the details of the agents who have made maximum commission in the Month of September.
+QUERY ->		SELECT a.AgentID,a.Name AS AgentName,a.CommissionRate,SUM(ti.TotalAmount * a.CommissionRate) AS TotalCommission
+			FROM travelagent a
+			JOIN Ticket ti ON a.AgentID = ti.AgentID
+			JOIN Schedule s ON ti.ScheduleID = s.ScheduleID
+			WHERE MONTH(s.DepartureDate) = 9 AND YEAR(s.DepartureDate) = YEAR(CURDATE())
+			GROUP BY a.AgentID
+			ORDER BY TotalCommission DESC;
+OUTPUT -> 
++---------+----------------------+----------------+-----------------+
+| AgentID | AgentName            | CommissionRate | TotalCommission |
++---------+----------------------+----------------+-----------------+
+|      10 | Prestige Tours       |          10.00 |      31500.0000 |
+|       1 | ABC Travel Services  |          10.00 |      12000.0000 |
+|       4 | Express Destinations |          10.00 |      11000.0000 |
+|       6 | Golden Gate Travel   |          10.00 |      10000.0000 |
+|       7 | Adventure Seekers    |          10.00 |       9500.0000 |
+|       2 | City Explorer Tours  |          10.00 |       8500.0000 |
++---------+----------------------+----------------+-----------------+

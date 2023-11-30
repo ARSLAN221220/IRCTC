@@ -1,0 +1,196 @@
+SET C
+C.1.	List all trains not scheduled on 10th October this year.
+QUERY ->	SELECT t.*
+    		FROM Train t
+     		WHERE t.TrainID NOT IN (SELECT DISTINCT s.TrainID
+             				FROM Schedule s
+            				WHERE DATE(s.DepartureDate) = '2023-10-10');
+OUTPUT ->
++---------+-----------------------------+------------+---------+---------+----------+
+| TrainID | Name                        | Type       | Mileage | RouteID | DriverID |
++---------+-----------------------------+------------+---------+---------+----------+
+|       1 | Rajdhani Express            | High-Speed |    6000 |      49 |      137 |
+|       2 | Shatabdi Express            | Automated  |    5500 |      30 |      150 |
+|       4 | Gatimaan Express            | High-Speed |    6200 |      14 |       10 |
+|       6 | Tejas Express               | High-Speed |    5500 |      48 |       82 |
+|       7 | Sampark Kranti Express      | Automated  |    5800 |      37 |       98 |
+|       8 | Garib Rath Express          | High-Speed |    6600 |      38 |       90 |
+|      10 | Vivek Express               | High-Speed |    5900 |      33 |      138 |
+|      11 | Mahamana Express            | Automated  |    5300 |      24 |       82 |
+|      12 | Antyodaya Express           | High-Speed |    6700 |      21 |       15 |
+|      13 | Vande Bharat Express        | Automated  |    5000 |      33 |       47 |
+|      14 | Uday Express                | High-Speed |    6400 |       1 |       16 |
+|      16 | Jansadharan Express         | Automated  |    4900 |      27 |      113 |
+|      17 | Suvidha Express             | High-Speed |    6100 |      16 |      104 |
+|      18 | Yuva Express                | Automated  |    5400 |      47 |      134 |
+|      19 | AC Express                  | High-Speed |    6300 |      39 |       68 |
+|      20 | Superfast Express           | High-Speed |    6500 |       4 |      126 |
+|      21 | Express                     | Automated  |    5900 |      50 |       69 |
+|      22 | Passenger                   | High-Speed |    6800 |      38 |       54 |
+|      23 | Intercity Express           | Automated  |    5200 |      40 |       76 |
+|      24 | Mail                        | High-Speed |    6700 |      35 |      103 |
+|      25 | MGR Express                 | Automated  |    5000 |       6 |        9 |
+|      26 | Mangala Lakshadweep Express | High-Speed |    7100 |      23 |       42 |
+|      27 | Navjeevan Express           | Automated  |    5600 |      47 |       12 |
+|      28 | Mahanama Express            | High-Speed |    6300 |      16 |      135 |
+|      29 | Swatantrata Senani Express  | Automated  |    5400 |      37 |      137 |
+|      30 | Dibrugarh Rajdhani Express  | High-Speed |    6900 |      39 |      114 |
+|      31 | Nanda Devi Express          | Automated  |    5300 |      33 |       78 |
+|      32 | Madhupur Howrah Express     | High-Speed |    6500 |      45 |       16 |
+|      33 | Deekshabhoomi Express       | Automated  |    5500 |      27 |      124 |
+|      35 | Vaishali Express            | Automated  |    5100 |      18 |       44 |
+|      37 | Kerala Express              | Automated  |    5700 |       2 |       81 |
+|      39 | Pushpak Express             | Automated  |    5800 |      11 |       90 |
+|      40 | Indrayani Express           | High-Speed |    6600 |       4 |       17 |
+|      41 | Karnataka Express           | Automated  |    5600 |      36 |       96 |
+|      42 | Tamil Nadu Express          | High-Speed |    7000 |      16 |       66 |
+|      43 | Kashi Vishwanath Express    | Automated  |    5700 |      23 |       93 |
+|      44 | Ganga Kaveri Express        | High-Speed |    6900 |      17 |      139 |
+|      45 | Netravati Express           | Automated  |    5400 |      13 |       62 |
+|      46 | Kumbha Express              | High-Speed |    6800 |      15 |       50 |
+|      47 | Golden Temple Mail          | Automated  |    5200 |      36 |      119 |
+|      48 | Sapt Kranti Express         | High-Speed |    6700 |      33 |      112 |
+|      49 | Pawan Express               | Automated  |    5500 |       7 |       33 |
+|      50 | Himalayan Queen             | High-Speed |    6600 |      34 |       45 |
+|      51 | Rajdhani Express            | Automated  |    5300 |       2 |       44 |
+|      52 | Shatabdi Express            | High-Speed |    6500 |       4 |      113 |
+|      54 | Gatimaan Express            | High-Speed |    7000 |      10 |       99 |
+|      55 | Humsafar Express            | Automated  |    5900 |       4 |       31 |
+|      56 | Tejas Express               | High-Speed |    7100 |      42 |       99 |
+|      57 | Sampark Kranti Express      | Automated  |    5400 |      45 |      103 |
+|      58 | Garib Rath Express          | High-Speed |    6700 |      50 |       78 |
+|      59 | Jan Shatabdi Express        | Automated  |    5500 |      16 |      103 |
+|      60 | Vivek Express               | High-Speed |    6900 |      26 |      119 |
+|      61 | Mahamana Express            | Automated  |    5900 |      35 |       32 |
+|      62 | Antyodaya Express           | High-Speed |    6800 |      44 |       99 |
+|      63 | Vande Bharat Express        | Automated  |    5200 |      17 |       60 |
+|      64 | Uday Express                | High-Speed |    6700 |       1 |       37 |
+|      65 | Pragati Express             | Automated  |    5000 |       2 |      126 |
+|      66 | Jansadharan Express         | High-Speed |    7100 |       8 |       15 |
+|      67 | Suvidha Express             | Automated  |    5600 |      31 |        7 |
+|      68 | Yuva Express                | High-Speed |    6300 |      34 |      136 |
+|      69 | AC Express                  | Automated  |    5400 |      24 |       10 |
+|      70 | Superfast Express           | High-Speed |    6900 |      18 |       61 |
+|      71 | Express                     | Automated  |    5300 |      16 |      119 |
+|      72 | Passenger                   | High-Speed |    6500 |      26 |       18 |
+|      73 | Intercity Express           | Automated  |    5500 |      30 |      108 |
+|      74 | Mail                        | High-Speed |    6800 |      23 |       67 |
+|      75 | MGR Express                 | Automated  |    5100 |      26 |        2 |
+|      76 | Mangala Lakshadweep Express | High-Speed |    6400 |       9 |      115 |
+|      77 | Navjeevan Express           | Automated  |    5700 |      17 |      135 |
+|      78 | Mahanama Express            | High-Speed |    7000 |       7 |       95 |
+|      79 | Swatantrata Senani Express  | Automated  |    5800 |      33 |       83 |
+|      80 | Dibrugarh Rajdhani Express  | High-Speed |    6600 |      44 |      142 |
+|      81 | Nanda Devi Express          | Automated  |    5600 |      18 |      138 |
+|      82 | Madhupur Howrah Express     | High-Speed |    7000 |      11 |       76 |
+|      83 | Deekshabhoomi Express       | Automated  |    5700 |      49 |      137 |
+|      84 | Grand Trunk Express         | High-Speed |    6900 |      10 |       74 |
+|      85 | Vaishali Express            | Automated  |    5400 |       4 |       44 |
+|      86 | Swarna Jayanti Express      | High-Speed |    6800 |      39 |        9 |
+|      87 | Kerala Express              | Automated  |    5200 |      32 |       64 |
+|      88 | Goa Express                 | High-Speed |    6700 |      43 |       13 |
+|      89 | Pushpak Express             | Automated  |    5500 |      18 |       18 |
+|      90 | Indrayani Express           | High-Speed |    6600 |      13 |       82 |
+|      91 | Karnataka Express           | Automated  |    5300 |       8 |       27 |
+|      92 | Tamil Nadu Express          | High-Speed |    6500 |       1 |      116 |
+|      93 | Kashi Vishwanath Express    | Automated  |    5800 |      29 |      124 |
+|      94 | Ganga Kaveri Express        | High-Speed |    7000 |      43 |       39 |
+|      95 | Netravati Express           | Automated  |    5900 |      27 |       25 |
+|      96 | Kumbha Express              | High-Speed |    7100 |       7 |      133 |
+|      97 | Golden Temple Mail          | Automated  |    5400 |       1 |      140 |
+|      98 | Sapt Kranti Express         | High-Speed |    6700 |      37 |       52 |
+|      99 | Pawan Express               | Automated  |    5500 |      28 |       45 |
+|     100 | Himalayan Queen             | High-Speed |    6900 |      29 |       82 |
++---------+-----------------------------+------------+---------+---------+----------+
+
+C.2.List all fleets from Dharwad to Bengaluru, in ascending order of their monthly seats sold for the month of October this year.
+
+C.3.List the details of most popular route of InterCity Express Trains.
+Output:-
+ SELECT
+    ->     r.RouteID,
+    ->     r.SourceStation,
+    ->     r.DestinationStation,
+    ->     COUNT(ti.TicketID) AS TotalBookings
+    -> FROM
+    ->     Route r
+    -> JOIN
+    ->     Train t ON r.RouteID = t.RouteID
+    -> JOIN
+    ->     Schedule s ON t.TrainID = s.TrainID
+    -> JOIN
+    ->     Ticket ti ON s.ScheduleID = ti.ScheduleID
+    -> GROUP BY
+    ->     r.RouteID, r.SourceStation, r.DestinationStation
+    -> ORDER BY
+    ->     TotalBookings DESC
+    -> LIMIT 1;
++---------+---------------+--------------------+---------------+
+| RouteID | SourceStation | DestinationStation | TotalBookings |
++---------+---------------+--------------------+---------------+
+|      33 | Bareilly      | Moradabad          |            10 |
++---------+---------------+--------------------+---------------+
+
+C.4.Display the details of the passengers who are frequent travellers with InterCity Express Trains. [Frequent traveller can be defined as the one who has travelled at least three times, irrespective of the route]
+Output:- select * from passenger
+    -> where Total_Trips > 3;
++-------------+-------------------+------+--------------+-------------+
+| PassengerID | Name              | Age  | DiscountType | Total_Trips |
++-------------+-------------------+------+--------------+-------------+
+|           3 | Michael Johnson   |   45 | Adult        |           5 |
+|           4 | Emily Williams    |   70 | Senior       |           6 |
+|           5 | Christopher Brown |   28 | Adult        |           7 |
+|           6 | Jessica Jones     |    8 | Child        |           7 |
+|          10 | Ava Rodriguez     |    5 | Child        |           7 |
+|          11 | Liam Martinez     |   25 | Adult        |           8 |
+|          12 | Sophia Jackson    |   60 | Adult        |           9 |
+|          13 | Mason Taylor      |   12 | Child        |          10 |
+|          14 | Amelia Clark      |   35 | Adult        |          12 |
+|          17 | Oliver Parker     |   50 | Adult        |           6 |
+|          18 | Emma Mitchell     |   22 | Adult        |           8 |
+|          19 | Logan Ward        |   65 | Senior       |           5 |
+|          23 | Noah Cooper       |   48 | Adult        |           9 |
+|          25 | Carter Alexander  |   70 | Senior       |           8 |
+|          26 | Charlotte Barnes  |   15 | Adult        |          25 |
+|          27 | Elijah Reed       |    5 | Child        |           5 |
+|          28 | Grace Fisher      |   45 | Adult        |           7 |
+|          29 | Owen Murray       |   60 | Adult        |           7 |
+|          30 | Aiden Sullivan    |   10 | Child        |           4 |
+|          31 | Abigail Wells     |   30 | Adult        |           5 |
+|          32 | Jackson Evans     |   55 | Adult        |           6 |
+|          38 | Liam Martin       |   22 | Adult        |           5 |
+|          39 | Olivia Dixon      |   65 | Senior       |           5 |
+|          40 | Lucas Clark       |    9 | Child        |           6 |
+|          41 | Emma Mitchell     |   28 | Adult        |           8 |
+|          42 | Logan Ward        |   50 | Adult        |           7 |
+|          43 | Sophia Perry      |   15 | Adult        |           8 |
+|          45 | Amelia Clark      |   32 | Adult        |           8 |
+|          46 | Lucas Moore       |   18 | Adult        |           5 |
+|          47 | Aria Hill         |    8 | Child        |           7 |
+|          48 | Oliver Parker     |   50 | Adult        |           6 |
+|          49 | Emma Mitchell     |   22 | Adult        |           6 |
+|          50 | Logan Ward        |   65 | Senior       |           7 |
+|          51 | Ella Howard       |   30 | Adult        |           5 |
+|          52 | Caleb Adams       |    9 | Child        |           5 |
+|          53 | Avery Simmons     |   60 | Adult        |           6 |
++-------------+-------------------+------+--------------+-------------+
+
+C.5.Display the details of trains which arrived late at their destination, more than once in this year; Include the driver and co-driver information in the output
+Output:-
+select * from schedule
+    -> where YearlyDelays >0;
++------------+---------+---------+---------------+-------------+---------------+--------+-------------+---------------------+--------------+----------------+----------------+
+| ScheduleID | TrainID | RouteID | DepartureTime | ArrivalTime | DepartureDate | OnTime | ArrivalDate | ArrivalDelayMinutes | YearlyDelays | Driver         | Co-Deiver      |
++------------+---------+---------+---------------+-------------+---------------+--------+-------------+---------------------+--------------+----------------+----------------+
+|          1 |       1 |       1 | 05:45:00      | 12:10:00    | 2023-03-29    |      1 | 2023-03-30  | 00:45:58            |            5 | John Doe       | Jane Smith     |
+|          3 |       2 |       3 | 06:30:00      | 12:45:00    | 2023-08-09    |      1 | 2023-08-10  | 00:40:00            |            7 | Michel Johnson | NULL           |
+|          7 |       4 |       7 | 08:00:00      | 14:30:00    | 2023-03-12    |      1 | 2023-03-13  | 00:25:50            |            8 | Jessica Jones  | NULL           |
+|          9 |       5 |       9 | 09:30:00      | 15:45:00    | 2023-10-10    |      1 | 2023-07-12  | 00:45:20            |            7 | Olivia Davis   | Emily Williams |
+|         11 |       6 |      11 | 10:00:00      | 16:15:00    | 2023-03-22    |      1 | 2023-03-23  | 01:35:21            |            8 | Daniel Garcia  | NULL           |
+|         12 |       6 |      12 | 18:15:00      | 00:30:00    | 2023-01-12    |      1 | 2023-01-13  | 00:50:00            |           10 | Ava Rodriguez  | Liam Martinez  |
+|         17 |       9 |      17 | 14:15:00      | 20:30:00    | 2023-10-10    |      1 | 2023-05-11  | 00:10:00            |            1 | Sophia Jackson | NULL           |
+|         18 |       9 |      18 | 22:30:00      | 04:45:00    | 2023-10-10    |      1 | 2023-05-01  | 01:05:20            |            3 | Mason Taylor   | Amelia Clark   |
+|         19 |      10 |      19 | 15:45:00      | 22:00:00    | 2023-07-29    |      1 | 2023-07-30  | 00:18:01            |            4 | Aria Hill      | NULL           |
++------------+---------+---------+---------------+-------------+---------------+--------+-------------+---------------------+--------------+----------------+----------------+
+9 rows in set (0.00 sec)
+

@@ -1,97 +1,90 @@
 SET B
 B.1.	Show schedule of all trips including main driver information for 10th October this year.
-QUERY ->		SELECT s.ScheduleID,t.TrainID,r.RouteID,r.SourceStation,r.DestinationStation,s.DepartureDate,s.ArrivalDate,
-			d.DriverID AS MainDriverID,
-			d.Name AS MainDriverName
-			FROM Schedule s
-			JOIN Train t ON s.TrainID = t.TrainID
-			JOIN Route r ON t.RouteID = r.RouteID
-			JOIN Driver d ON t.DriverID = d.DriverID
-			WHERE DATE(s.DepartureDate) = '2023-10-10';
+QUERY -> select s.*, t.DriverID, d.Name from schedule s, train t, driver d where s.TrainID = t.TrainID and t.DriverID = d.DriverID and DepartureDate = '2023-10-10';
 OUTPUT -> 
-+------------+---------+---------+---------------+--------------------+---------------+-------------+--------------+-------------------+
-| ScheduleID | TrainID | RouteID | SourceStation | DestinationStation | DepartureDate | ArrivalDate | MainDriverID | MainDriverName    |
-+------------+---------+---------+---------------+--------------------+---------------+-------------+--------------+-------------------+
-|          5 |       3 |       1 | Goa           | Mumbai             | 2023-10-10    | 2023-05-09  |          113 | Carter Alexander  |
-|          6 |       3 |       1 | Goa           | Mumbai             | 2023-10-10    | 2023-11-07  |          113 | Carter Alexander  |
-|         29 |      15 |       6 | Jaipur        | Ahmedabad          | 2023-10-10    | 2023-07-20  |          132 | Skylar Richardson |
-|         30 |      15 |       6 | Jaipur        | Ahmedabad          | 2023-10-10    | 2023-03-22  |          132 | Skylar Richardson |
-|        105 |      53 |      14 | Surat         | Vadodara           | 2023-10-10    | 2023-12-17  |           21 | Ethan Turner      |
-|        106 |      53 |      14 | Surat         | Vadodara           | 2023-10-10    | 2023-01-28  |           21 | Ethan Turner      |
-|          9 |       5 |      18 | Jodhpur       | Udaipur            | 2023-10-10    | 2023-07-12  |           68 | Mila Russell      |
-|         10 |       5 |      18 | Jodhpur       | Udaipur            | 2023-10-10    | 2023-05-12  |           68 | Mila Russell      |
-|         17 |       9 |      29 | Agra          | Mathura            | 2023-10-10    | 2023-05-11  |           98 | Aurora Perry      |
-|         18 |       9 |      29 | Agra          | Mathura            | 2023-10-10    | 2023-05-01  |           98 | Aurora Perry      |
-|         75 |      38 |      33 | Bareilly      | Moradabad          | 2023-10-10    | 2023-06-24  |           99 | Silas Simmons     |
-|         76 |      38 |      33 | Bareilly      | Moradabad          | 2023-10-10    | 2023-05-07  |           99 | Silas Simmons     |
-|         71 |      36 |      41 | Gandhinagar   | Bharuch            | 2023-10-10    | 2023-10-30  |           12 | Sophia Jackson    |
-|         72 |      36 |      41 | Gandhinagar   | Bharuch            | 2023-10-10    | 2023-08-01  |           12 | Sophia Jackson    |
-|         67 |      34 |      50 | Chandrapur    | Gondia             | 2023-10-10    | 2023-12-26  |           78 | Madison Reyes     |
-|         68 |      34 |      50 | Chandrapur    | Gondia             | 2023-10-10    | 2023-08-15  |           78 | Madison Reyes     |
-+------------+---------+---------+---------------+--------------------+---------------+-------------+--------------+-------------------+
++------------+---------+---------+---------------+-------------+---------------+--------+-------------+---------------------+--------+----------+-------------------+
+| ScheduleID | TrainID | RouteID | DepartureTime | ArrivalTime | DepartureDate | OnTime | ArrivalDate | ArrivalDelayMinutes | Delays | DriverID | Name              |
++------------+---------+---------+---------------+-------------+---------------+--------+-------------+---------------------+--------+----------+-------------------+
+|          5 |       3 |       5 | 07:15:00      | 13:30:00    | 2023-10-10    |      1 | 2023-05-09  | 00:11:36            |      2 |      113 | Carter Alexander  |
+|          6 |       3 |       6 | 15:45:00      | 22:00:00    | 2023-10-10    |      1 | 2023-11-07  | 01:18:53            |     10 |      113 | Carter Alexander  |
+|          9 |       5 |       9 | 09:30:00      | 15:45:00    | 2023-10-10    |      1 | 2023-07-12  | 01:51:44            |     11 |       68 | Mila Russell      |
+|         10 |       5 |      10 | 17:00:00      | 23:15:00    | 2023-10-10    |      1 | 2023-05-12  | 01:52:22            |      5 |       68 | Mila Russell      |
+|         17 |       9 |      17 | 14:15:00      | 20:30:00    | 2023-10-10    |      0 | 2023-05-11  | 01:42:15            |      8 |       98 | Aurora Perry      |
+|         18 |       9 |      18 | 22:30:00      | 04:45:00    | 2023-10-10    |      1 | 2023-05-01  | 01:06:57            |      9 |       98 | Aurora Perry      |
+|         29 |      15 |      29 | 20:45:00      | 03:00:00    | 2023-10-10    |      1 | 2023-07-20  | 01:26:03            |      2 |      132 | Skylar Richardson |
+|         30 |      15 |      30 | 05:30:00      | 11:45:00    | 2023-10-10    |      0 | 2023-03-22  | 01:23:43            |     13 |      132 | Skylar Richardson |
+|         67 |      34 |      17 | 11:45:00      | 18:00:00    | 2023-10-10    |      1 | 2023-12-26  | 01:52:13            |      5 |       78 | Madison Reyes     |
+|         68 |      34 |      18 | 01:00:00      | 07:15:00    | 2023-10-10    |      1 | 2023-08-15  | 01:20:55            |      1 |       78 | Madison Reyes     |
+|         71 |      36 |      21 | 13:15:00      | 19:30:00    | 2023-10-10    |      0 | 2023-10-30  | 00:14:31            |      9 |       12 | Sophia Jackson    |
+|         72 |      36 |      22 | 03:30:00      | 09:45:00    | 2023-10-10    |      1 | 2023-08-01  | NULL                |      5 |       12 | Sophia Jackson    |
+|         75 |      38 |      25 | 14:45:00      | 21:00:00    | 2023-10-10    |      0 | 2023-06-24  | NULL                |      7 |       99 | Silas Simmons     |
+|         76 |      38 |      26 | 05:15:00      | 11:30:00    | 2023-10-10    |      1 | 2023-05-07  | NULL                |      8 |       99 | Silas Simmons     |
+|        105 |      53 |      15 | 11:00:00      | 17:15:00    | 2023-10-10    |      1 | 2023-12-17  | NULL                |      1 |       21 | Ethan Turner      |
+|        106 |      53 |      16 | 23:30:00      | 06:45:00    | 2023-10-10    |      0 | 2023-01-28  | 01:32:14            |      1 |       21 | Ethan Turner      |
++------------+---------+---------+---------------+-------------+---------------+--------+-------------+---------------------+--------+----------+-------------------+
+
 
 B.2.	List all coaches with mileage between 4000 and 4999 km covered for September this year; include information on the coach, its last service date and total number of scheduled trips.
-QUERY ->		SELECT c.CoachID, c.Mileage, c.LastMaintenanceDate,
-			COUNT(s.ScheduleID) AS TotalScheduledTrips
-    			FROM Coach c
-     			JOIN MaintenanceSchedule ms ON c.CoachID = ms.CoachID
-     			JOIN Schedule s ON ms.maintenanceID = s.ScheduleID
-    			WHERE MONTH(c.LastMaintenanceDate) = 09 AND YEAR(c.LastMaintenanceDate) = 2023 AND c.Mileage BETWEEN 4000 AND 4999
-    			GROUP BY c.CoachID,c.Mileage, c.LastMaintenanceDate;
+QUERY -> select c.CoachID, c.Mileage, count(s.ScheduleID) as Total_schedule_trips, s.DepartureDate, c.LastMaintenanceDate from coach c , schedule s where c.trainid=s.TrainID and month (s.DepartureDate)= 09 and year (s.DepartureDate)= 2023 and c.Mileage between 4000 and 4999 group by CoachID, s.DepartureDate;
 
 OUTPUT ->
-+---------+---------+---------------------+---------------------+
-| CoachID | Mileage | LastMaintenanceDate | TotalScheduledTrips |
-+---------+---------+---------------------+---------------------+
-|       9 |    4700 | 2023-09-20          |                   1 |
-+---------+---------+---------------------+---------------------+
++---------+---------+----------------------+---------------+---------------------+
+| CoachID | Mileage | Total_schedule_trips | DepartureDate | LastMaintenanceDate |
++---------+---------+----------------------+---------------+---------------------+
+|      18 |    4800 |                    1 | 2023-09-04    | 2024-06-05          |
+|      37 |    4900 |                    1 | 2023-09-07    | 2026-01-10          |
+|      92 |    4900 |                    1 | 2023-09-20    | 2030-08-15          |
++---------+---------+----------------------+---------------+---------------------+
 
 B.3.	List all agents, in descending order of percentage of confirmed booking each trip in the month of October this year. Include agent and route information in your result.
-QUERY ->  		SELECT ta.AgentID,ta.Name AS AgentName,r.RouteID,r.SourceStation,r.DestinationStation,COUNT(ti.TicketID) AS TotalBookings,
-			SUM(CASE WHEN ti.BookingStatus = 'Confirmed' THEN 1 ELSE 0 END) AS ConfirmedBookings,
-			(SUM(CASE WHEN ti.BookingStatus = 'Confirmed' THEN 1 ELSE 0 END) / COUNT(ti.TicketID)) * 100 AS PercentageConfirmed
-			FROM travelagent ta
-			JOIN Ticket ti ON ta.AgentID = ti.AgentID
-			JOIN Schedule s ON ti.ScheduleID = s.ScheduleID
-			JOIN Train t ON s.TrainID = t.TrainID
-			JOIN Route r ON t.RouteID = r.RouteID
-			WHERE MONTH(ti.BookingDate) = 10 AND YEAR(ti.BookingDate)
-			GROUP BY ta.AgentID, r.RouteID
-			ORDER BY PercentageConfirmed DESC;
-OUTPUT -> Empty set (0.00 sec)
+QUERY ->  select r.*, t.agentid, ta.Name, count(t.agentid) as total_cnf_bookings from ticket t, schedule s, route r, travelagent ta where t.scheduleID = s.scheduleID and s.routeid = r.routeid and t.agentid = ta.agentid and bookingstatus='Confirmed' and t.agentid is not null and month(bookingdate) = 09 group by t.agentid, routeID order by total_cnf_bookings desc;
+OUTPUT -> 
++---------+---------------+--------------------+---------+----------------------+--------------------+
+| RouteID | SourceStation | DestinationStation | agentid | Name                 | total_cnf_bookings |
++---------+---------------+--------------------+---------+----------------------+--------------------+
+|      30 | Thane         | Navi Mumbai        |      10 | Prestige Tours       |                  2 |
+|       1 | Goa           | Mumbai             |       8 | Metro Travels        |                  1 |
+|      14 | Surat         | Vadodara           |      10 | Prestige Tours       |                  1 |
+|      25 | Dhanbad       | Asansol            |      10 | Prestige Tours       |                  1 |
+|      43 | Aligarh       | Meerut             |      10 | Prestige Tours       |                  1 |
+|      50 | Chandrapur    | Gondia             |       1 | ABC Travel Services  |                  1 |
+|       1 | Goa           | Mumbai             |       7 | Adventure Seekers    |                  1 |
+|       5 | Hyderabad     | Kolkata            |       4 | Express Destinations |                  1 |
+|      11 | Kochi         | Thiruvananthapuram |      10 | Prestige Tours       |                  1 |
+|      15 | Amritsar      | Chandigarh         |       2 | City Explorer Tours  |                  1 |
+|      19 | Guwahati      | Shillong           |      10 | Prestige Tours       |                  1 |
+|      20 | Nashik        | Aurangabad         |       8 | Metro Travels        |                  1 |
+|      21 | Bhubaneswar   | Cuttack            |      10 | Prestige Tours       |                  1 |
+|      23 | Raipur        | Bilaspur           |       3 | Global Voyages       |                  1 |
+|      28 | Gwalior       | Jhansi             |      10 | Prestige Tours       |                  1 |
+|      29 | Agra          | Mathura            |      10 | Prestige Tours       |                  1 |
+|      47 | Palakkad      | Kozhikode          |       7 | Adventure Seekers    |                  1 |
+|       1 | Goa           | Mumbai             |      10 | Prestige Tours       |                  1 |
+|       3 | Chennai       | Bengaluru          |       1 | ABC Travel Services  |                  1 |
+|       4 | Delhi         | Pune               |      10 | Prestige Tours       |                  1 |
+|       6 | Jaipur        | Ahmedabad          |      10 | Prestige Tours       |                  1 |
+|       7 | Lucknow       | Varanasi           |       1 | ABC Travel Services  |                  1 |
+|      14 | Surat         | Vadodara           |       2 | City Explorer Tours  |                  1 |
+|      15 | Amritsar      | Chandigarh         |       6 | Golden Gate Travel   |                  1 |
+|      20 | Nashik        | Aurangabad         |      10 | Prestige Tours       |                  1 |
+|      31 | Kolkata       | Howrah             |      10 | Prestige Tours       |                  1 |
+|      32 | Puducherry    | Cuddalore          |      10 | Prestige Tours       |                  1 |
+|      33 | Bareilly      | Moradabad          |       9 | Elite Journeys       |                  1 |
+|      35 | Ambala        | Panipat            |      10 | Prestige Tours       |                  1 |
++---------+---------------+--------------------+---------+----------------------+--------------------+
+
 
 B.4.	Display the details of the routes where majority of bookings are not made by agents.
-QUERY -> 		SELECT r.RouteID,r.SourceStation,r.DestinationStation,COUNT(ti.TicketID) AS TotalBookings,COUNT(CASE WHEN ti.AgentID IS NULL THEN 1 END) AS BookingsWithoutAgent
-			FROM Route r
-			JOIN Train t ON r.RouteID = t.RouteID
-			JOIN Schedule s ON t.TrainID = s.TrainID
-			JOIN Ticket ti ON s.ScheduleID = ti.ScheduleID
-			GROUP BY r.RouteID
-			HAVING BookingsWithoutAgent > 0.5 * COUNT(ti.TicketID);
+QUERY ->
 OUTPUT -> 
-+---------+---------------+--------------------+---------------+----------------------+
-| RouteID | SourceStation | DestinationStation | TotalBookings | BookingsWithoutAgent |
-+---------+---------------+--------------------+---------------+----------------------+
-|       1 | Goa           | Mumbai             |             4 |                    3 |
-|      30 | Thane         | Navi Mumbai        |             2 |                    2 |
-+---------+---------------+--------------------+---------------+----------------------+
+
 
 B.5.	Display the details of the agents who have made maximum commission in the Month of September.
-QUERY ->		SELECT a.AgentID,a.Name AS AgentName,a.CommissionRate,SUM(ti.TotalAmount * a.CommissionRate) AS TotalCommission
-			FROM travelagent a
-			JOIN Ticket ti ON a.AgentID = ti.AgentID
-			JOIN Schedule s ON ti.ScheduleID = s.ScheduleID
-			WHERE MONTH(s.DepartureDate) = 9 AND YEAR(s.DepartureDate) = YEAR(CURDATE())
-			GROUP BY a.AgentID
-			ORDER BY TotalCommission DESC;
+QUERY -> select a.*, count(t.AgentID) as max_commission_agent from travelagent a, ticket t where a.AgentID=t.AgentID and month (t.BookingDate)=09 group by a.AgentID order by max_commission_agent desc limit 1;
+
 OUTPUT -> 
-+---------+----------------------+----------------+-----------------+
-| AgentID | AgentName            | CommissionRate | TotalCommission |
-+---------+----------------------+----------------+-----------------+
-|      10 | Prestige Tours       |          10.00 |      31500.0000 |
-|       1 | ABC Travel Services  |          10.00 |      12000.0000 |
-|       4 | Express Destinations |          10.00 |      11000.0000 |
-|       6 | Golden Gate Travel   |          10.00 |      10000.0000 |
-|       7 | Adventure Seekers    |          10.00 |       9500.0000 |
-|       2 | City Explorer Tours  |          10.00 |       8500.0000 |
-+---------+----------------------+----------------+-----------------+
++---------+----------------+----------------+----------------------+
+| AgentID | Name           | CommissionRate | max_commission_agent |
++---------+----------------+----------------+----------------------+
+|      10 | Prestige Tours |          10.00 |                   17 |
++---------+----------------+----------------+----------------------+
